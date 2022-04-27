@@ -22,6 +22,7 @@ app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Credentials', false);
 	next();
 });
+// create cors
 app.use(cors());
 app.use(express.json());
 app.use(helmet());
