@@ -14,7 +14,7 @@ const con = mysql.createConnection({
 	host: 'localhost',
 	user: process.env.MYSQL_USERNAME,
 	password: process.env.MYSQL_PASSWORD,
-	database: 'fcode_member_card',
+	database: process.env.MYSQL_DATABASE,
 });
 
 app.use('/users', routeUser);
