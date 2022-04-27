@@ -19,7 +19,7 @@ passport.use(
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL,
 		}, // verify function passed, all gotten field will be verified here
-		function (request, accessToken, refreshToken, profile, cb) {
+		(request, accessToken, refreshToken, profile, cb) => {
 			console.log('=============== google strategy =============================');
 
 			return cb(null, profile);
