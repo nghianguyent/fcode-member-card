@@ -9,4 +9,8 @@ router.get('/', (req, res) => {
 	res.send('respond with a resource');
 });
 
+router.get('/:id', (req, res) => {
+	res.send(`User get successful ${  req.params.id}`);
+})
+
 module.exports = router;

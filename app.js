@@ -4,6 +4,10 @@ const mysql = require('mysql');
 const app = express();
 const env = require('dotenv');
 
+const routeUser = require('./routes/users');
+
+const port = process.env.PORT || 3000;
+
 env.config();
 
 const con = mysql.createConnection({
@@ -13,6 +17,16 @@ const con = mysql.createConnection({
 	database: 'fcode_member_card',
 });
 
+app.use('/users', routeUser);
+app.get('/', (req, res) => {
+	console.log('Hello, world!');
+	res.status(200).send('hello, world!');
+});
+
+app.listen(port, () => {
+	console.log(`Listening on port ${port}`);
+});
+
 con.connect((err) => {
 	if (err) {
 		throw err;
@@ -20,14 +34,4 @@ con.connect((err) => {
 	console.log('success');
 });
 
-const sql = 'CREATE TABLE test (id INTEGER)';
-
-con.query(sql, (err) => {
-	if (err) {
-		throw err;
-	}
-	console.log('success');
-});
-
 con.end();
-module.exports = app;
