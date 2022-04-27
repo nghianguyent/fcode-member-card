@@ -1,15 +1,33 @@
 const express = require('express');
 const mysql = require('mysql');
+// const jwt = require('jwt');
+const cors = require('cors');
+const helmet = require('helmet');
 
 const app = express();
 const env = require('dotenv');
 
-const routeUser = require('./routes/users');
+const login = require('./routes/loginGG');
+// const routeUser = require('./routes/users');
 
+// config
+env.config();
 const port = process.env.PORT || 3000;
 
-env.config();
+// alot access from other ports
+app.use((req, res, next) => {
+	res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	res.setHeader('Access-Control-Allow-Credentials', false);
+	next();
+});
+app.use(cors());
+app.use(express.json());
+// app.use(helmet());
+app.use('/auth/google', login);
 
+// connect to database
 const con = mysql.createConnection({
 	host: 'localhost',
 	user: process.env.MYSQL_USERNAME,
@@ -17,21 +35,11 @@ const con = mysql.createConnection({
 	database: 'fcode_member_card',
 });
 
-app.use('/users', routeUser);
-app.get('/', (req, res) => {
-	console.log('Hello, world!');
-	res.status(200).send('hello, world!');
-});
+// middleware
 
+// listen on port
 app.listen(port, () => {
-	console.log(`Listening on port ${port}`);
-});
-
-con.connect((err) => {
-	if (err) {
-		throw err;
-	}
-	console.log('success');
+	console.log(`listening on ${port}`);
 });
 
 con.end();
