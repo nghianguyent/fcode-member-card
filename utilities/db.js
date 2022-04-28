@@ -7,15 +7,14 @@ let pool;
 
 module.exports = {
 	getPool: () => {
-		if (pool) {
-			return pool;
+		if (!pool) {
+			pool = mysql.createPool({
+				host: 'localhost',
+				user: process.env.MYSQL_USERNAME,
+				password: process.env.MYSQL_PASSWORD,
+				database: process.env.MYSQL_DATABASE,
+			});
 		}
-		pool = mysql.createConnection({
-			host: 'localhost',
-			user: process.env.MYSQL_USERNAME,
-			password: process.env.MYSQL_PASSWORD,
-			database: process.env.MYSQL_DATABASE,
-		});
 		return pool;
 	},
 };
