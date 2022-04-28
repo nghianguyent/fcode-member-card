@@ -21,6 +21,7 @@ passport.use(
 		}, // verify function passed, all gotten field will be verified here
 		(request, accessToken, refreshToken, profile, cb) => {
 			console.log('=============== google strategy =============================');
+			console.log(profile);
 
 			return cb(null, profile);
 		}
@@ -63,7 +64,6 @@ router.get(
 	}),
 	async (req, res) => {
 		console.log('=============== callback sucess =============================');
-		console.log(req, res);
 		res.send('successful');
 	}
 );

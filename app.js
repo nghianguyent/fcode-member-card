@@ -7,7 +7,7 @@ const helmet = require('helmet');
 const app = express();
 const env = require('dotenv');
 
-const login = require('./routes/loginGG');
+const login = require('./routes/google-auth');
 // const routeUser = require('./routes/users');
 
 // config
