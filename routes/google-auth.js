@@ -2,12 +2,12 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const env = require('dotenv');
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const pool = require('../utilities/db');
 
 const router = express.Router();
 
 env.config();
-
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
 const hostURL = 'http://localhost:3000';
 const callbackURL = `${hostURL}/auth/google/callback`;
@@ -18,11 +18,17 @@ passport.use(
 			clientID: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 			callbackURL,
-		}, // verify function passed, all gotten field will be verified here
+		}, // verify function passed, all gotten field will be verified here, run after callback router returned
 		(request, accessToken, refreshToken, profile, cb) => {
 			console.log('=============== google strategy =============================');
-			console.log(profile);
-
+			const sql = 'SELECT * FROM member WHERE school_mail = ?';
+			// const userProfile = null;
+			pool.getPool().query(sql, [profile.email], (err, result) => {
+				console.log(result[0]);
+			});
+			pool.getPool().query(sql, [profile.email], (err, result) => {
+				console.log(result[0]);
+			});
 			return cb(null, profile);
 		}
 	)
@@ -43,6 +49,7 @@ router.use(
 		saveUninitialized: true,
 	})
 );
+
 router.use(passport.initialize());
 router.use(passport.session());
 
@@ -62,7 +69,7 @@ router.get(
 	passport.authenticate('google', {
 		failureRedirect: '/',
 	}),
-	async (req, res) => {
+	(req, res) => {
 		console.log('=============== callback sucess =============================');
 		res.send('successful');
 	}
