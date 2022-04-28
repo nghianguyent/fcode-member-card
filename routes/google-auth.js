@@ -26,9 +26,6 @@ passport.use(
 			pool.getPool().query(sql, [profile.email], (err, result) => {
 				console.log(result[0]);
 			});
-			pool.getPool().query(sql, [profile.email], (err, result) => {
-				console.log(result[0]);
-			});
 			return cb(null, profile);
 		}
 	)
