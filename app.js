@@ -44,16 +44,16 @@ app.use((req, res) => {
 });
 
 // eslint-disable-next-line no-unused-vars
-// app.use((err, req, res, next) => {
-// 	// cusstom handle errors
+app.use((err, req, res, next) => {
+	// cusstom handle errors
 
-// 	// handle OAuth error
-// 	// if (!req.user) {
-// 	// 	return res.json({
-// 	// 		success: false,
-// 	// 		error: err,
-// 	// 	});
-// 	// }
-// });
+	// handle OAuth error
+	if (!req.user) {
+		return res.status(500).json({
+			success: false,
+			error: err,
+		});
+	}
+});
 
 module.exports = app;
