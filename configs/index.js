@@ -8,7 +8,6 @@ const {
 	GOOGLE_CLIENT_SECRET,
 	HOST_URL,
 } = process.env;
-
 module.exports = {
 	MYSQL_USERNAME,
 	MYSQL_PASSWORD,
