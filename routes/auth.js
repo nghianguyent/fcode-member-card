@@ -1,8 +1,8 @@
 const express = require('express');
-const auth = require('./auth');
+const services = require('../services');
 
 const router = express.Router();
 
-router.use('/auth', auth);
+router.use('/google', services.passportInit);
 
 module.exports = router;

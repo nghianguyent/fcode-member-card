@@ -1,0 +1,3 @@
+login page /auth/google
+callback /auth/google/callback
+home page /
