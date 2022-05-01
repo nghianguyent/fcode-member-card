@@ -43,14 +43,14 @@ passport.use(
 		}, // verify function when successfully getting user profile
 		function (accessToken, refreshToken, profile, done) {
 			// console.log(profile);
-			console.log('=============== google strategy =============================');
+			// console.log('=============== google strategy =============================');
 			const sql = 'SELECT * FROM member WHERE school_mail = ?';
 			// const userProfile = null;
 			db.getPool().query(sql, [profile.email], (err, result) => {
 				if (err) return done(err);
 				if (result) {
 					// console.log(result);
-					console.log('db');
+					// console.log('db');
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
 				isAuthent = false;
