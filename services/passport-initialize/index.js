@@ -5,13 +5,12 @@ const passport = require('passport');
 // const md5 = require('md5');
 const db = require('../database');
 const configs = require('../../configs');
-
-require('https').globalAgent.options.rejectUnauthorized = false;
-
+const jwt = require('../../utilities/jwt');
+const {findUser} = require('./helpers');
 // create strategy google
 let GoogleStrategy = require('passport-google-oauth20').Strategy;
 const router = express.Router();
-
+const redirectUrl = configs.HOST_URL + '/api/auth';
 // router.use(passport.initialize()); // initializes Passport
 router.use(
 	session({
@@ -35,10 +34,11 @@ passport.deserializeUser((user, done) => {
 // redirect to google logger
 passport.use(
 	// create new strategy
-	new GoogleStrategy({
+	new GoogleStrategy(
+		{
 			clientID: '379611883013-1oou8vteivte9rhhlbhf5tkq2us1cl4e.apps.googleusercontent.com',
 			clientSecret: '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',
-			callbackURL: `http://localhost:3000/api/auth/google/callback`,
+			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
 			// passReqToCallback: true,
 		}, // verify function when successfully getting user profile
 		function (accessToken, refreshToken, profile, done) {
@@ -51,49 +51,51 @@ passport.use(
 				if (result) {
 					// console.log(result);
 					console.log('db');
-					return done(null, profile);
+					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
 				isAuthent = false;
-				return done(null, false);
+				return done(null, false); // if profile error or not the same will occur the verification false
 			});
 			return done(null, profile);
 		}
 	)
 );
-
+// routing to google login
 router.use(
 	'/',
 	passport.authenticate('google', {
 		scope: ['email', 'profile'],
 	})
 );
-
+// callback after successful login
 router.use(
 	'/callback',
 	passport.authenticate('google', {
 		failureRedirect: '/',
 		successRedirect: '/callback',
 	}),
-	(req, res) => {
-		const sql = 'SELECT * FROM member WHERE school_mail = ?';
+	async (req, res) => {
 		const userEmail = req.user._json.email;
-		db.getPool().query(sql, [userEmail], (err, result) => {
-			if (err) return done(err);
-			const user = result[0];
-			if (user) {
-				return res.status(200).json({
-					status: 200,
-					message: 'success login',
-					data: {
-						user,
-					},
-				});
-			}
-			return res.status(400).json({
-				status: 400,
-				message: 'Cannot find the user',
+		findUser(userEmail)
+			.then((token) => {
+				// response json
+				// res.status(200).json({
+				// 	status: 200,
+				// 	message: 'success login',
+				// 	data: {
+				// 		token,
+				// 	},
+				// });
+				res.redirect(redirectUrl + `/auth?success=true&token=${token}`); // redirect with token in query
+			})
+			.catch((error) => {
+				// response json
+				// res.status(401).json({
+				// 	status: 401,
+				// 	message: error.message,
+				// })
+				res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with token in query
 			});
-		});
 	}
 );
 
