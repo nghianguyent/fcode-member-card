@@ -20,7 +20,7 @@ const findUser = (userEmail) => {
 					configs.JWT_SECRET,
 					'1h'
 				);
-				console.log(token);
+				// console.log(token);
 				return resolve(token);
 				// return res.redirect(redirectUrl + `/auth?user=${token}&success=true`);
 				// return res.status(200).json({
