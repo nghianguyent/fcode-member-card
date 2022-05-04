@@ -18,10 +18,10 @@ const findUser = (userEmail) => {
 			// return the user information
 			const token = await jwt.generateToken(
 				{
-					user,
-					// id: user.id,
-					// schoolMail: user.school_mail,
-					// personalMail: user.personal_mail,
+					id: user.id,
+					member_id: user.id,
+					schoolMail: user.school_mail,
+					personalMail: user.personal_mail,
 				},
 				configs.JWT_SECRET,
 				'1h'

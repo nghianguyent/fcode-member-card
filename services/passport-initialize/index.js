@@ -51,7 +51,6 @@ passport.use(
 			// // const userProfile = null;
 			// console.log(profile.email);
 			db.getPool().query(sql, [profile._json.email], (err, result) => {
-				console.log(err, result);
 				if (err) return done(err);
 				if (result) {
 					// console.log(result);
@@ -80,7 +79,6 @@ router.use(
 	}),
 	async (req, res) => {
 		const userEmail = req.user.emails[0].value;
-		console.log(userEmail);
 		findUser(userEmail)
 			.then((token) => {
 				// response json
