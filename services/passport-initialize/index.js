@@ -36,27 +36,32 @@ passport.use(
 	// create new strategy
 	new GoogleStrategy(
 		{
-			clientID: '379611883013-1oou8vteivte9rhhlbhf5tkq2us1cl4e.apps.googleusercontent.com',
-			clientSecret: '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',
+			clientID: configs.GOOGLE_CLIENT_ID,
+			clientSecret: configs.GOOGLE_CLIENT_SECRET,
 			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
 			// passReqToCallback: true,
 		}, // verify function when successfully getting user profile
-		function (accessToken, refreshToken, profile, done) {
+		async function (accessToken, refreshToken, profile, done) {
 			// console.log(profile);
 			// console.log('=============== google strategy =============================');
 			const sql = 'SELECT * FROM member WHERE school_mail = ?';
-			// const userProfile = null;
-			db.getPool().query(sql, [profile.email], (err, result) => {
+			// console.log(profile._json.email);
+			// return done(null, profile._json.email);
+
+			// // const userProfile = null;
+			// console.log(profile.email);
+			db.getPool().query(sql, [profile._json.email], (err, result) => {
+				console.log(err, result);
 				if (err) return done(err);
 				if (result) {
 					// console.log(result);
 					// console.log('db');
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
-				isAuthent = false;
 				return done(null, false); // if profile error or not the same will occur the verification false
 			});
 			return done(null, profile);
+			// console.log(profile);
 		}
 	)
 );
@@ -72,10 +77,10 @@ router.use(
 	'/callback',
 	passport.authenticate('google', {
 		failureRedirect: '/',
-		successRedirect: '/callback',
 	}),
 	async (req, res) => {
-		const userEmail = req.user._json.email;
+		const userEmail = req.user.emails[0].value;
+		console.log(userEmail);
 		findUser(userEmail)
 			.then((token) => {
 				// response json
@@ -86,7 +91,8 @@ router.use(
 				// 		token,
 				// 	},
 				// });
-				res.redirect(redirectUrl + `/auth?success=true&token=${token}`); // redirect with token in query
+				res.redirect(redirectUrl + `?success=true&token=${token}`); // redirect with token in query
+				res.end();
 			})
 			.catch((error) => {
 				// response json
@@ -94,7 +100,8 @@ router.use(
 				// 	status: 401,
 				// 	message: error.message,
 				// })
-				res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with token in query
+				res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with error message in query
+				res.end();
 			});
 	}
 );

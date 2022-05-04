@@ -1,6 +1,7 @@
-/dist
 /build
 /node_modules
 .env
 package-lock.json
 *.lock
+.vscode
+dist

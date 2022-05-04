@@ -1,18 +1,15 @@
 const mysql = require('mysql');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
+const configs = require('../../configs');
 let pool;
 
 module.exports = {
 	getPool: () => {
 		if (!pool) {
 			pool = mysql.createPool({
-				host: 'localhost',
-				user: process.env.MYSQL_USERNAME,
-				password: process.env.MYSQL_PASSWORD,
-				database: process.env.MYSQL_DATABASE,
+				host: configs.MYSQL_HOST,
+				user: configs.MYSQL_USERNAME,
+				password: configs.MYSQL_PASSWORD,
+				database: configs.MYSQL_DATABASE,
 			});
 		}
 		return pool;

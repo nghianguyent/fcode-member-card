@@ -8,7 +8,16 @@ const {
 	GOOGLE_CLIENT_SECRET,
 	HOST_URL,
 	JWT_SECRET,
+	MYSQL_HOST,
 } = process.env;
+
+const connectionConfig = {
+	host: MYSQL_HOST,
+	user: MYSQL_USERNAME,
+	password: MYSQL_PASSWORD,
+	database: MYSQL_DATABASE,
+};
+
 module.exports = {
 	MYSQL_USERNAME,
 	MYSQL_PASSWORD,
@@ -17,4 +26,6 @@ module.exports = {
 	GOOGLE_CLIENT_SECRET,
 	HOST_URL,
 	JWT_SECRET,
+	MYSQL_HOST,
+	connectionConfig,
 };

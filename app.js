@@ -1,19 +1,17 @@
 const express = require('express');
-// const jwt = require('jwt');
 const logger = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 const env = require('dotenv');
 const api = require('./routes');
 const app = express();
-
-// const routeUser = require('./routes/users');
+const configs = require('./configs');
 
 // config
 env.config();
 const port = process.env.PORT || 3000;
 
-// app.use(logger('dev'));
+app.use(logger('dev'));
 // Add headers
 app.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Origin', '*');
