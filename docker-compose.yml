@@ -5,7 +5,7 @@ services:
     image: mysql
     container_name: database
     command: --default-authentication-plugin=mysql_native_password
-    restart: always
+    restart: unless-stopped
     environment:
       MYSQL_HOST: localhost
       MYSQL_ROOT_PASSWORD: nghia14302
@@ -20,21 +20,10 @@ services:
       - db-data:/var/lib/mysql
       - ./db/backup/files/:/data_backup/data
   membercard:
-    image: membercard
+    image: nghia14302/fcode-member-card
     build:
       context: .
       dockerfile: ./Dockerfile
-    environment:
-      NODE_ENV: production
-      MYSQL_USERNAME: root
-      MYSQL_PASSWORD: nghia14302
-      MYSQL_DATABASE: fcode_member_card
-      MYSQL_HOST: database
-      GOOGLE_CLIENT_ID: 379611883013-d4n1undvqrn3uikqacep0eoho3v3vj6h.apps.googleusercontent.com
-      GOOGLE_CLIENT_SECRET: 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
-      HOST_URL: "http://localhost:4000"
-      PORT: 4000
-      JWT_SECRET: f-code.tech
     ports:
       - "4000:4000"
     expose:

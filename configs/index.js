@@ -1,4 +1,5 @@
-require('dotenv').config();
+const envPath = __dirname + '/../.env.' + process.env.NODE_ENV;
+require('dotenv').config({path: envPath});
 
 const {
 	MYSQL_USERNAME,
