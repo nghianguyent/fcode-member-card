@@ -19,8 +19,7 @@ const findUser = (userEmail) => {
 			const token = await jwt.generateToken(
 				{
 					id: user.id,
-					member_id: user.id,
-					schoolMail: user.school_mail,
+					memberId: user.member_id,
 					personalMail: user.personal_mail,
 				},
 				configs.JWT_SECRET,
