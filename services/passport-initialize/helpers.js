@@ -10,7 +10,7 @@ const findUser = (userEmail) => {
 		.then(async (result) => {
 			const user = result[0];
 			if (!user) {
-				return new Error("this user doesn't exit");
+				throw new Error("this user doesn't exit");
 			}
 			const token = await jwt.generateToken(
 				{
@@ -24,7 +24,7 @@ const findUser = (userEmail) => {
 			return token;
 		})
 		.catch((err) => {
-			return err.message;
+			throw err;
 		});
 };
 
