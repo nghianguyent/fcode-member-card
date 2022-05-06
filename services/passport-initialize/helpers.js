@@ -1,4 +1,4 @@
-const db = require('../database');
+const db = require('../query-helper');
 const configs = require('../../configs');
 const jwt = require('../../utilities/jwt');
 
