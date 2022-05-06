@@ -3,7 +3,7 @@ const session = require('express-session');
 // const session = require('express-session');
 const passport = require('passport');
 // const md5 = require('md5');
-const db = require('../database');
+const db = require('../query-helper');
 const configs = require('../../configs');
 const jwt = require('../../utilities/jwt');
 const {findUser} = require('./helpers');
@@ -39,22 +39,15 @@ passport.use(
 			clientID: configs.GOOGLE_CLIENT_ID,
 			clientSecret: configs.GOOGLE_CLIENT_SECRET,
 			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
-			// passReqToCallback: true,
 		}, // verify function when successfully getting user profile
 		async function (accessToken, refreshToken, profile, done) {
-			// console.log(profile);
-			// console.log('=============== google strategy =============================');
 			const sql = 'SELECT * FROM member WHERE school_mail = ?';
-			// console.log(profile._json.email);
-			// return done(null, profile._json.email);
 
 			// // const userProfile = null;
 			// console.log(profile.email);
 			db.getPool().query(sql, [profile._json.email], (err, result) => {
 				if (err) return done(err);
 				if (result) {
-					// console.log(result);
-					// console.log('db');
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
 				return done(null, false); // if profile error or not the same will occur the verification false
