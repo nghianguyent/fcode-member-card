@@ -10,7 +10,13 @@ router.get('/', (req, res) => {
 });
 
 router.get('/:id', (req, res) => {
-	res.send(`User get successful ${  req.params.id}`);
-})
+	res.status(200).json({
+		success: true,
+		message: 'Successfully get user ' + req.params.id,
+		data: {
+			
+		}
+	})
+});
 
 module.exports = router;

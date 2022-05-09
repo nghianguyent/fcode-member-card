@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  membercard:
+    image: membercard
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      NODE_ENV: development
+      MYSQL_USERNAME: fcode-member-card
+      MYSQL_DATABASE: fcode_member_card
+      GOOGLE_CLIENT_ID: 379611883013-5phhig5lpmoltrb238njk7lds3e0h1jh.apps.googleusercontent.com
+      MYSQL_PASSWORD: f-code.tech
+      GOOGLE_CLIENT_SECRET: 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
+      HOST_URL: "http://localhost:3000"
+      PORT: 3000
+      JWT_SECRET: f-code.tech
+    ports:
+      - 3000:3000
+      - 9229:9229
+    command: ["node", "--inspect=0.0.0.0:9229", "app.js"]
