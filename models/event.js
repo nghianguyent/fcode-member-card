@@ -4,7 +4,7 @@ class Event {
 	constructor(event) {
 		this.id = Date.now();
 		this.name = event.name;
-		this.date = event.date;
+		this.eventDate = event.event_date;
 		this.description = event.description;
 		this.startTime = event.start_time;
 		this.endTime = event.end_time;
@@ -26,7 +26,7 @@ class Event {
 			[
 				event.id,
 				event.name,
-				event.date,
+				event.eventDate,
 				event.description,
 				event.startTime,
 				event.endTime,
@@ -56,7 +56,7 @@ class Event {
 			query,
 			[
 				event.name,
-				event.date,
+				event.eventDate,
 				event.description,
 				event.startTime,
 				event.endTime,
