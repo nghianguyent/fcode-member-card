@@ -49,8 +49,8 @@ class Event {
 
 	static set = (id, event, result) => {
 		const query =
-			'UPDATE event SET name=?, date=?, description=?,' +
-			'start_time=?, end_time=?, status=?, semester=?' +
+			'UPDATE event SET name=?, date=?, description=?, ' +
+			'start_time=?, end_time=?, status=?, semester=? ' +
 			'WHERE id=?';
 		pool.query(
 			query,
