@@ -1,10 +1,11 @@
 const db = require('../query-helper');
 const configs = require('../../configs');
 const jwt = require('../../utilities/jwt');
+const queryModal = require('../../queries/queryModal');
 
 const findUser = (userEmail) => {
 	// using promise to send back token or errors
-	const sql = 'SELECT * FROM member WHERE school_mail = ? OR personal_mail = ?';
+	const sql = queryModal.getUserByEmail;
 	return db
 		.getData(sql, [userEmail, userEmail])
 		.then(async (result) => {

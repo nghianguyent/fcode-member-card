@@ -1,3 +1,3 @@
 module.exports = {
-	select: 'SELECT * FROM ? WHERE id = ?',
+	getUserByEmail: 'SELECT * FROM member WHERE school_mail = ? or personal_mail= ?',
 };

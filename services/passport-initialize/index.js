@@ -7,6 +7,7 @@ const db = require('../query-helper');
 const configs = require('../../configs');
 const jwt = require('../../utilities/jwt');
 const {findUser} = require('./helpers');
+const queryModal = require('../../queries/queryModal');
 // create strategy google
 let GoogleStrategy = require('passport-google-oauth20').Strategy;
 const router = express.Router();
@@ -41,11 +42,11 @@ passport.use(
 			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
 		}, // verify function when successfully getting user profile
 		async function (accessToken, refreshToken, profile, done) {
-			const sql = 'SELECT * FROM member WHERE school_mail = ?';
+			const sql = queryModal.getUserByEmail;
 
 			// // const userProfile = null;
 			// console.log(profile.email);
-			db.getPool().query(sql, [profile._json.email], (err, result) => {
+			db.getPool().query(sql, [profile._json.email, profile._json.email], (err, result) => {
 				if (err) return done(err);
 				if (result) {
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
