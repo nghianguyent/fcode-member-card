@@ -30,7 +30,6 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 // middleware
 app.use('/api', api);
-eventsRoute(app);
 
 // listen on port
 app.listen(port, () => {
