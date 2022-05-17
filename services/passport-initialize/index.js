@@ -11,7 +11,7 @@ const queryModal = require('../../queries/queryModal');
 // create strategy google
 let GoogleStrategy = require('passport-google-oauth20').Strategy;
 const router = express.Router();
-const redirectUrl = configs.HOST_URL + '/api/auth';
+const redirectUrl = configs.HOST_URL + '/login';
 // router.use(passport.initialize()); // initializes Passport
 router.use(
 	session({
@@ -39,7 +39,7 @@ passport.use(
 		{
 			clientID: configs.GOOGLE_CLIENT_ID,
 			clientSecret: configs.GOOGLE_CLIENT_SECRET,
-			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
+			callbackURL: configs.SERVER_URL + '/api/auth/google/callback',
 		}, // verify function when successfully getting user profile
 		async function (accessToken, refreshToken, profile, done) {
 			const sql = queryModal.getUserByEmail;
@@ -49,6 +49,7 @@ passport.use(
 			db.getPool().query(sql, [profile._json.email, profile._json.email], (err, result) => {
 				if (err) return done(err);
 				if (result) {
+					console.log(result);
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
 				return done(null, false); // if profile error or not the same will occur the verification false
@@ -71,7 +72,7 @@ router.use(
 	passport.authenticate('google', {
 		failureRedirect: '/',
 	}),
-	async (req, res) => {
+	(req, res) => {
 		const userEmail = req.user.emails[0].value;
 		findUser(userEmail)
 			.then((token) => {
@@ -83,6 +84,7 @@ router.use(
 				// 		token,
 				// 	},
 				// });
+				console.log(token);
 				res.redirect(redirectUrl + `?success=true&token=${token}`); // redirect with token in query
 				res.end();
 			})
@@ -92,7 +94,8 @@ router.use(
 				// 	status: 401,
 				// 	message: error.message,
 				// })
-				res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with error message in query
+				console.log(error);
+				return res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with error message in query
 				res.end();
 			});
 	}

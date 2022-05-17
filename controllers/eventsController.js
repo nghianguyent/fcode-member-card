@@ -8,9 +8,9 @@ const getAllEvents = (req, res) => {
 				message: err.message,
 			});
 		else
-			res.json({
+			res.status(200).json({
 				status: 200,
-				message: 'success',
+				message: 'sucessfully created',
 				data: events,
 			});
 	});
@@ -25,7 +25,7 @@ const addEvent = (req, res) => {
 				message: err.message,
 			});
 		else
-			res.json({
+			res.send({
 				status: 200,
 				message: 'success',
 			});
@@ -47,7 +47,7 @@ const getEvent = (req, res) => {
 				message: err.message,
 			});
 		else
-			res.json({
+			res.send({
 				status: 200,
 				message: 'success',
 				data: event[0],
@@ -64,7 +64,7 @@ const updateEvent = (req, res) => {
 				message: err.message,
 			});
 		else
-			res.json({
+			res.send({
 				status: 200,
 				message: 'success',
 			});
@@ -79,7 +79,7 @@ const deleteEvent = (req, res) => {
 				message: err.message,
 			});
 		else
-			res.json({
+			res.send({
 				status: 200,
 				message: 'success',
 			});
