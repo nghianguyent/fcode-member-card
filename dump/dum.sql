@@ -59,7 +59,7 @@ IF NOT EXISTS `fcode_member_card`.`member`
   PRIMARY KEY
 (`id`),
   UNIQUE INDEX `id_UNIQUE`
-(`id` ASC) VISIBLE,
+(`id` ASC) VISIBLE,v
   UNIQUE INDEX `phone_UNIQUE`
 (`phone` ASC) VISIBLE,
   UNIQUE INDEX `personal_mail_UNIQUE`
@@ -142,8 +142,6 @@ VALUES
   ('SE161180', 'SE161180', 'Nguyễn Trọng', 'Nghĩa', '2002-12-23 00:00:00', 'nghiantse161180@fpt.edu.vn', 'nghia14302', 0947562592, 'null', 'K16', 'member', 'https://www.facebook.com/DVIL.NTN/', 'null', 0, 'null'),
   ('SE160046', 'SE160046', 'Huỳnh Hoàng', 'Huy', '2002-12-27 00:00:00', 'huyhhse160046@fpt.edu.vn', 'huynhhuy2002@gmail.com', 0905873846, 'null', 'K16', 'member', 'https://www.facebook.com/kr.nzk', 'null', 0, 'null'),
   ('SE161268', 'SE161268', 'Lý Tuấn', 'Kiệt', '2003-01-09 00:00:00', 'kietltse161268@fpt.edu.vn', 'lyhung998877@gmail.com', 0966319365, 'null', 'K16', 'member', 'fb.me/tuankiet2s', 'null', 0, 'null');
-
-
 
 SET SQL_MODE
 =@OLD_SQL_MODE;
