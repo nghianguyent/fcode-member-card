@@ -49,7 +49,6 @@ passport.use(
 			db.getPool().query(sql, [profile._json.email, profile._json.email], (err, result) => {
 				if (err) return done(err);
 				if (result) {
-					console.log(result);
 					return done(null, profile); // this callback will return exactly one profile that is used to verify
 				}
 				return done(null, false); // if profile error or not the same will occur the verification false
@@ -84,7 +83,6 @@ router.use(
 				// 		token,
 				// 	},
 				// });
-				console.log(token);
 				res.redirect(redirectUrl + `?success=true&token=${token}`); // redirect with token in query
 				res.end();
 			})
