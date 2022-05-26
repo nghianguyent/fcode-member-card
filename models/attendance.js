@@ -13,13 +13,12 @@ class Attendance {
 			.setData(queries.insertAttendance, [Object.values(attendance)])
 			.then((result) => {
 				if (result) {
-					callback(null, true);
-					return;
+					return callback(null, true);
 				}
-				callback(null, false);
+				return callback(null, false);
 			})
 			.catch((err) => {
-				callback(err, false);
+				return callback(err, false);
 			});
 	}
 	static addPoint(attendance, callback) {}

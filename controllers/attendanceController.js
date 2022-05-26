@@ -8,17 +8,16 @@ const setAttendance = (req, res) => {
 	const token = req.headers.token;
 	const attendance = req.body;
 	jwt.verifyToken(token, JWT_SECRET)
-		.then((token) => {
+		.then(() => {
 			Attendance.set(attendance, (err, result) => {
-				if (err || result == false) {
-					console.log(false);
+				if (err || !result) {
 					res.status(200).json({
 						status: 400,
 						message: 'Wrong information in request. ' + err.sqlMessage,
 					});
 					return;
 				}
-				res.send(200).json({
+				res.status(200).json({
 					status: 200,
 					message: 'Successful check attendance',
 				});
@@ -32,4 +31,6 @@ const setAttendance = (req, res) => {
 		});
 };
 
-module.exports = setAttendance;
+module.exports = {
+	setAttendance: setAttendance,
+};
