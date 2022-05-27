@@ -22,7 +22,7 @@ class Member {
 
 	static getUserById(id, callback) {
 		const query = queries.getUserById;
-		return queryHelper
+		queryHelper
 			.getData(query, [id])
 			.then((response) => {
 				// this(response.data);
