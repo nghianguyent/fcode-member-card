@@ -9,17 +9,19 @@ class Attendance {
 	}
 	static get(attendance, callback) {}
 	static async set(attendance, callback) {
-		let valid = await this.checkValidId(attendance.member_id, attendance.event_id).then(
-			(err) => {
-				if (err) {
-					return err;
+		let isNotValid = await this.checkValidId(attendance.member_id, attendance.event_id)
+			.then((isNotValid) => {
+				if (isNotValid) {
+					return isNotValid;
 				}
 				return false;
-			}
-		);
-		console.log(valid);
-		if (!valid) {
-			return callback(valid, false);
+			})
+			.catch((err) => {
+				console.error(err);
+				return callback(err, false);
+			});
+		if (isNotValid) {
+			return callback(isNotValid, false);
 		}
 		query
 			.setData(queries.insertAttendance, [Object.values(attendance)])
@@ -37,34 +39,34 @@ class Attendance {
 	static minusPoint(attendance, callback) {}
 
 	static async checkValidId(memberId, eventId) {
-		let validMemberId = await query
+		let validMember = await query
 			.getData(queries.getUserById, [memberId])
 			.then((data) => data[0])
 			.catch((err) => {
 				return Error("Member id doesn't exist");
 			});
-		let validEventId = await query
+		let validEvent = await query
 			.getData(queries.getEventById, [eventId])
 			.then((data) => data[0])
 			.catch((err) => {
-				return Error("event id doesn't exist");
+				return Error("Event id doesn't exist");
 			});
-		if (!validEventId) {
-			return Error("Member id doesn't exist");
+		if (!validEvent) {
+			return Error("Event id doesn't exist");
 		}
-		if (!validMemberId) {
-			console.log(validMemberId);
+		if (!validMember) {
 			return Error("Member id doesn't exists");
 		}
 		let isAttend = await query
-			.getData(queries.getAttendance, [validMemberId, validEventId])
+			.getData(queries.getAttendance, [validMember.id, validEvent.id])
 			.then((result) => {
 				if (result[0]) {
 					return Error('Already checked attendance');
 				}
+				return false;
 			})
 			.catch((err) => {
-				return false;
+				return err;
 			});
 		return isAttend;
 	}
