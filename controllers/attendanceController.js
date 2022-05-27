@@ -13,7 +13,7 @@ const setAttendance = (req, res) => {
 				if (err || !result) {
 					res.status(200).json({
 						status: 400,
-						message: 'Wrong information in request. ' + err.sqlMessage,
+						message: 'Wrong information in request. ' + (err.message || err.sqlMessage),
 					});
 					return;
 				}
@@ -26,7 +26,7 @@ const setAttendance = (req, res) => {
 		.catch((err) => {
 			res.status(200).json({
 				status: 403,
-				message: 'False to check attendance, ' + err.sqlMessage,
+				message: 'False to check attendance, ' + (err.message || err.sqlMessage),
 			});
 		});
 };
