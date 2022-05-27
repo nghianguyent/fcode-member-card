@@ -94,6 +94,11 @@ const updateEvent = (req, res) => {
 						status: 500,
 						message: err.message,
 					});
+				else if (result.affectedRows == 0)
+					res.send({
+						status: 404,
+						message: 'cannot find event',
+					});
 				else
 					res.send({
 						status: 200,
@@ -117,6 +122,11 @@ const deleteEvent = (req, res) => {
 					res.send({
 						status: 500,
 						message: err.message,
+					});
+				else if (result.affectedRows == 0)
+					res.send({
+						status: 404,
+						message: 'cannot find event',
 					});
 				else
 					res.send({
