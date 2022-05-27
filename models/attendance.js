@@ -43,7 +43,7 @@ class Attendance {
 				if (isNotValid) {
 					return isNotValid;
 				}
-				let isExisted = await this.get(attendance, (err, result) => {
+				let isExisted = await this.get(attendance, (err) => {
 					if (err) return err;
 				}).then((result) => {
 					if (result) {
@@ -64,12 +64,7 @@ class Attendance {
 			.setData(queries.insertAttendance, [Object.values(attendance)])
 			.then((result) => {
 				if (result) {
-					return callback(
-						null,
-						this.get(attendance, (err) => {
-							if (err) return false;
-						})
-					);
+					return callback(null, true);
 				}
 				return callback(null, false);
 			})
