@@ -34,7 +34,7 @@ const setData = (queryString, [...args]) => {
 				console.log('db err');
 				return reject(err);
 			}
-			return resolve(true);
+			return resolve(result);
 		});
 	});
 };

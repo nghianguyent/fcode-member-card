@@ -7,8 +7,7 @@ class Attendance {
 		this.memberId = attendance.memberId;
 		this.eventId = attendance.eventId;
 	}
-	static get(attendance, callback) {}
-	static async set(attendance, callback) {
+	static async get(attendance, callback) {
 		let isNotValid = await this.checkValidId(attendance.member_id, attendance.event_id)
 			.then((isNotValid) => {
 				if (isNotValid) {
@@ -23,11 +22,54 @@ class Attendance {
 		if (isNotValid) {
 			return callback(isNotValid, false);
 		}
+		return await query
+			.getData(queries.getAttendance, [attendance.member_id, attendance.event_id])
+			.then((result) => {
+				if (result[0]) {
+					callback(null, result[0]);
+					return result[0];
+				}
+				callback(null, false);
+				return null;
+			})
+			.catch((err) => {
+				callback(err, false);
+				return null;
+			});
+	}
+	static async set(attendance, callback) {
+		let isNotValid = await this.checkValidId(attendance.member_id, attendance.event_id)
+			.then(async (isNotValid) => {
+				if (isNotValid) {
+					return isNotValid;
+				}
+				let isExisted = await this.get(attendance, (err, result) => {
+					if (err) return err;
+				}).then((result) => {
+					if (result) {
+						return result;
+					}
+					return null;
+				});
+				if (isExisted) return Error('Already checked attendance');
+				return false;
+			})
+			.catch((err) => {
+				return callback(err, false);
+			});
+		if (isNotValid) {
+			return callback(isNotValid, false);
+		}
 		query
 			.setData(queries.insertAttendance, [Object.values(attendance)])
 			.then((result) => {
 				if (result) {
-					return callback(null, true);
+					return callback(
+						null,
+						this.get(attendance, (err) => {
+							if (err) return false;
+						})
+					);
 				}
 				return callback(null, false);
 			})
@@ -57,18 +99,7 @@ class Attendance {
 		if (!validMember) {
 			return Error("Member id doesn't exists");
 		}
-		let isAttend = await query
-			.getData(queries.getAttendance, [validMember.id, validEvent.id])
-			.then((result) => {
-				if (result[0]) {
-					return Error('Already checked attendance');
-				}
-				return false;
-			})
-			.catch((err) => {
-				return err;
-			});
-		return isAttend;
+		return false;
 	}
 }
 module.exports = Attendance;
