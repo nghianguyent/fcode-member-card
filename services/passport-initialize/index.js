@@ -11,7 +11,7 @@ const queryModal = require('../../queries/queryModal');
 // create strategy google
 let GoogleStrategy = require('passport-google-oauth20').Strategy;
 const router = express.Router();
-const redirectUrl = configs.HOST_URL + '/login';
+const redirectUrl = configs.HOST_URL + '/api/auth';
 // router.use(passport.initialize()); // initializes Passport
 router.use(
 	session({
@@ -39,7 +39,7 @@ passport.use(
 		{
 			clientID: configs.GOOGLE_CLIENT_ID,
 			clientSecret: configs.GOOGLE_CLIENT_SECRET,
-			callbackURL: configs.SERVER_URL + '/api/auth/google/callback',
+			callbackURL: configs.HOST_URL + `/api/auth/google/callback`,
 		}, // verify function when successfully getting user profile
 		async function (accessToken, refreshToken, profile, done) {
 			const sql = queryModal.getUserByEmail;
@@ -71,7 +71,7 @@ router.use(
 	passport.authenticate('google', {
 		failureRedirect: '/',
 	}),
-	(req, res) => {
+	async (req, res) => {
 		const userEmail = req.user.emails[0].value;
 		findUser(userEmail)
 			.then((token) => {
@@ -92,8 +92,7 @@ router.use(
 				// 	status: 401,
 				// 	message: error.message,
 				// })
-				console.log(error);
-				return res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with error message in query
+				res.redirect(redirectUrl + `?success=false&message=${error.message}`); // redirect with error message in query
 				res.end();
 			});
 	}
