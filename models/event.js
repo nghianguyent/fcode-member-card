@@ -1,4 +1,4 @@
-const pool = require('../utilities/db').getPool();
+const pool = require('../services/query-helper').getPool();
 
 class Event {
 	constructor(event) {
