@@ -1,5 +1,6 @@
 const envPath = __dirname + '/../.env.' + process.env.NODE_ENV;
 require('dotenv').config({path: envPath});
+// require('dotenv').config();
 
 const {
 	MYSQL_USERNAME,

@@ -27,12 +27,15 @@ class Member {
 			.then((response) => {
 				// this(response.data);
 				if (response[0]) {
-					return callback(null, response[0]);
+					callback(null, response[0]);
+					return response[0];
 				}
-				return callback(null, false);
+				callback(null, false);
+				return null;
 			})
 			.catch((error) => {
-				return callback(error, false);
+				callback(error, false);
+				return null;
 			});
 	}
 }

@@ -6,7 +6,7 @@ const getUserById = (req, res) => {
 	jwt.verifyToken(req.headers.token, config.JWT_SECRET)
 		.then(() => {
 			Member.getUserById(req.params.id, (err, result) => {
-				if (err) return res.status(500).send(err.message);
+				if (err) return res.status(500).send(err.sqlMessage);
 				if (!result)
 					return res.status(200).json({
 						status: 403,
@@ -22,9 +22,8 @@ const getUserById = (req, res) => {
 		.catch((err) => {
 			res.status(200).json({
 				status: 403,
-				message: 'False to get data, ' + err.message,
+				message: 'False to get data, ' + err.sqlMessage,
 			});
-			console.log(err.message);
 		});
 };
 
