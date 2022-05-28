@@ -30,11 +30,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 // middleware
 app.use('/api', api);
+eventsRoute(app);
 
-app.get('/', (req, res) => {
-	const requestQuery = req.query;
-	res.status(200).json(requestQuery);
-});
 // listen on port
 app.listen(port, () => {
 	console.log(`listening on ${port}`);
