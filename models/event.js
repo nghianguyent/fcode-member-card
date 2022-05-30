@@ -10,6 +10,7 @@ class Event {
 		this.endTime = event.end_time;
 		this.status = event.status;
 		this.semester = event.semester;
+		this.location = event.location;
 	}
 
 	static getAll = (result) => {
@@ -33,6 +34,7 @@ class Event {
 				event.endTime,
 				event.status,
 				event.semester,
+				event.location,
 			],
 			(err, res) => {
 				if (err) result(err, null);
@@ -61,6 +63,7 @@ class Event {
 				event.endTime,
 				event.status,
 				event.semester,
+				event.location,
 				id,
 			],
 			(err, res) => {
