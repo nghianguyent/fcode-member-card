@@ -14,7 +14,7 @@ const getAllEvents = (req, res) => {
 				else
 					res.status(200).json({
 						status: 200,
-						message: 'sucessfully created',
+						message: 'success',
 						data: events,
 					});
 			});
