@@ -1,5 +1,5 @@
 const pool = require('../services/query-helper').getPool();
-
+const queries = require('../queries/queryModal');
 class Event {
 	constructor(event) {
 		this.id = Date.now();
@@ -13,14 +13,14 @@ class Event {
 	}
 
 	static getAll = (result) => {
-		pool.query('SELECT * FROM event ORDER BY id DESC', (err, res) => {
+		pool.query(queries.getEvent, (err, res) => {
 			if (err) return result(err, null);
 			return result(null, res);
 		});
 	};
 
 	static add = (event, result) => {
-		const query = 'INSERT INTO event VALUES(?,?,?,?,?,?,?,?,?)';
+		const query = queries.insertEvent;
 		pool.query(
 			query,
 			[
@@ -42,17 +42,14 @@ class Event {
 	};
 
 	static get = (id, result) => {
-		pool.query('SELECT * FROM event WHERE id=?', [id], (err, res) => {
+		pool.query(queries.getEventById, [id], (err, res) => {
 			if (err) return result(err, null);
 			return result(null, res);
 		});
 	};
 
 	static set = (id, event, result) => {
-		const query =
-			'UPDATE event SET name=?, start_date=?, end_date=?, description=?, ' +
-			'start_time=?, end_time=?, status=?, semester=? ' +
-			'WHERE id=?';
+		const query = queries.updateEvent;
 		pool.query(
 			query,
 			[
@@ -74,7 +71,7 @@ class Event {
 	};
 
 	static remove = (id, result) => {
-		pool.query('DELETE FROM event WHERE id=?', [id], (err, res) => {
+		pool.query(queries.deleteEvent, [id], (err, res) => {
 			if (err) return result(err, null);
 			else return result(null, res);
 		});
