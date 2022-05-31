@@ -5,6 +5,7 @@ class Event {
 		this.id = Date.now();
 		this.name = event.name;
 		this.startDate = event.start_date;
+		this.endDate = event.end_date;
 		this.description = event.description;
 		this.startTime = event.start_time;
 		this.endTime = event.end_time;
