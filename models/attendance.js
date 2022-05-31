@@ -72,8 +72,6 @@ class Attendance {
 				return callback(err, false);
 			});
 	}
-	static addPoint(attendance, callback) {}
-	static minusPoint(attendance, callback) {}
 
 	static async checkValidId(memberId, eventId) {
 		let validMember = await query

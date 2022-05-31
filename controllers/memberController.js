@@ -27,6 +27,31 @@ const getUserById = (req, res) => {
 		});
 };
 
+const changePoint = (req, res) => {
+	jwt.verifyToken(req.headers.token, config.JWT_SECRET)
+		.then(() => {
+			Member.changeActivePoint(req.params.id, req.query.points, (err, result) => {
+				if (err) return res.status(500).send(err.message);
+				if (result.affectedRows == 0)
+					return res.status(200).json({
+						status: 403,
+						message: 'Could not find user with id ' + req.params.id,
+					});
+				res.status(200).json({
+					status: 200,
+					message: 'Successfully change point for user ' + req.params.id,
+				});
+			});
+		})
+		.catch((err) => {
+			res.status(200).json({
+				status: 403,
+				message: 'False to change point, ' + err.message,
+			});
+		});
+};
+
 module.exports = {
 	getUserById: getUserById,
+	changePoint,
 };
