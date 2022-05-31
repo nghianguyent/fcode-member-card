@@ -41,7 +41,7 @@ class Member {
 
 	static changeActivePoint(id, points, callback) {
 		// points = parseInt(points);
-		if (!points) return callback(Error("Missing query 'points'"), null);
+		if (!points) return callback(Error("Missing body 'points'"), null);
 		const query = queries.changeActivePoint;
 		queryHelper
 			.setData(query, [points, id])
