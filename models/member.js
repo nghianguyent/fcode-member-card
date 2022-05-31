@@ -38,6 +38,20 @@ class Member {
 				return null;
 			});
 	}
+
+	static changeActivePoint(id, points, callback) {
+		// points = parseInt(points);
+		if (!points) return callback(Error("Missing body 'points'"), null);
+		const query = queries.changeActivePoint;
+		queryHelper
+			.setData(query, [points, id])
+			.then((res) => {
+				callback(null, res);
+			})
+			.catch((err) => {
+				callback(err, null);
+			});
+	}
 }
 
 module.exports = Member;
