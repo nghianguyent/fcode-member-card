@@ -6,10 +6,14 @@ const getUserById = (req, res) => {
 	jwt.verifyToken(req.headers.token, config.JWT_SECRET)
 		.then(() => {
 			Member.getUserById(req.params.id, (err, result) => {
-				if (err) return res.status(500).send(err.sqlMessage);
+				if (err)
+					return res.status(200).json({
+						status: 500,
+						message: err.message,
+					});
 				if (!result)
 					return res.status(200).json({
-						status: 403,
+						status: 404,
 						message: 'Could not find user with id ' + req.params.id,
 					});
 				res.status(200).json({
@@ -22,7 +26,7 @@ const getUserById = (req, res) => {
 		.catch((err) => {
 			res.status(200).json({
 				status: 403,
-				message: 'False to get data, ' + err.sqlMessage,
+				message: 'False to get data, ' + err.message,
 			});
 		});
 };
@@ -31,10 +35,14 @@ const changePoint = (req, res) => {
 	jwt.verifyToken(req.headers.token, config.JWT_SECRET)
 		.then(() => {
 			Member.changeActivePoint(req.params.id, req.query.points, (err, result) => {
-				if (err) return res.status(500).send(err.message);
+				if (err)
+					return res.status(200).json({
+						status: 500,
+						message: err.message,
+					});
 				if (result.affectedRows == 0)
 					return res.status(200).json({
-						status: 403,
+						status: 404,
 						message: 'Could not find user with id ' + req.params.id,
 					});
 				res.status(200).json({
