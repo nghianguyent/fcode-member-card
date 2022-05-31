@@ -6,6 +6,6 @@ const router = express.Router();
 /* GET users listing. */
 
 router.get('/:id', memberController.getUserById);
-router.get('/:id/change-point', memberController.changePoint);
+router.put('/:id/change-point', memberController.changePoint);
 
 module.exports = router;
