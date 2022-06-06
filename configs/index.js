@@ -14,6 +14,7 @@ const {
 	MYSQL_HOST,
 } = process.env;
 
+const swaggerConf = require('./swaggerConf.json');
 const connectionConfig = {
 	host: MYSQL_HOST,
 	user: MYSQL_USERNAME,
@@ -32,4 +33,5 @@ module.exports = {
 	MYSQL_HOST,
 	SERVER_URL,
 	connectionConfig,
+	swaggerConf,
 };

@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const env = require('dotenv');
 const api = require('./routes');
 const bodyParser = require('body-parser');
-const eventsRoute = require('./routes/events');
+const swaggerJsdoc = require('swagger-jsdoc');
 const app = express();
 const configs = require('./configs');
 
