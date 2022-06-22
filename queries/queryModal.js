@@ -4,6 +4,8 @@ module.exports = {
 	changeActivePoint: 'UPDATE member SET active_point = active_point + ? WHERE id = ?',
 	getEventById: 'SELECT * FROM event WHERE id = ?',
 	getAttendance: 'SELECT * FROM attendance WHERE member_id = ? and event_id = ?',
+	getAllMemberAttendance:
+		"SELECT concat(m.first_name, ' ',m.last_name) as name, m.member_id, status FROM attendance a JOIN member m Where a.member_id = m.id AND a.event_id = ?",
 	getEvent: 'SELECT * FROM event ORDER BY id DESC',
 	deleteEvent: 'DELETE FROM event WHERE id=?',
 	updateEvent:

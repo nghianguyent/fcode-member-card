@@ -60,7 +60,35 @@ const getAttendance = (req, res) => {
 		});
 };
 
+const getAllMemberAttendance = (req, res) => {
+	const token = req.headers.token;
+	const id = req.query.event_id;
+	jwt.verifyToken(token, JWT_SECRET)
+		.then(() => {
+			Attendance.getAllMember(id, (err, result) => {
+				if (err || !result) {
+					res.status(200).json({
+						status: 400,
+						message: 'Wrong information in request' + (err.message || err.sqlMessage),
+					});
+					return;
+				}
+				res.status(200).json({
+					status: 200,
+					message: 'Success',
+					data: result,
+				});
+			});
+		})
+		.catch((err) => {
+			res.status(200).json({
+				status: 403,
+				message: 'False to check attendance, ' + (err.message || err.sqlMessage),
+			});
+		});
+};
 module.exports = {
 	setAttendance: setAttendance,
 	getAttendance: getAttendance,
+	getAllMemberAttendance: getAllMemberAttendance,
 };
