@@ -20,6 +20,7 @@ const getData = (queryString, [...args]) => {
 	return new Promise((resolve, reject) => {
 		pool.query(queryString, args, (err, result) => {
 			if (err) {
+				console.log(err);
 				return reject(err.message);
 			}
 			return resolve(result);

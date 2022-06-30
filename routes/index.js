@@ -4,8 +4,8 @@ const events = require('./events');
 const user = require('./user');
 const attendance = require('./attendance');
 const swagger = require('./swagger');
+const attendanceController = require('../controllers/attendanceController');
 const router = express.Router();
-
 router.use('/auth', auth);
 router.use('/user', user);
 router.use('/events', events);

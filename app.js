@@ -53,12 +53,12 @@ app.use((req, res) => {
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
 	// cusstom handle errors
-
+	console.log(err);
 	// handle OAuth error
 	if (!req.user) {
-		return res.status(500).json({
-			success: false,
-			error: err,
+		return res.status(200).json({
+			message: 'Unauthorized',
+			status: 500,
 		});
 	}
 });
