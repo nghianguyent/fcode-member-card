@@ -8,8 +8,7 @@ const router = express.Router();
  * paths:
  *  /api/events:
  *      get:
- *          tags:
- *              - "Events"
+ *          tags: [Events]
  *          summary: get all events
  *          parameters:
  *              - $ref: '#/components/parameters/AuthorizedHeader'
@@ -22,25 +21,49 @@ const router = express.Router();
  *                              $ref: '#/components/schemas/Events'
  *              '403':
  *                  $ref: '#/components/responses/Unauthorized'
- *
+ *  /api/events/{event_id}:
+ *      get:
+ *          tags: [Events]
+ *          summary: get a specific event information
+ *          parameters:
+ *          - $ref: '#/components/parameters/AuthorizedHeader'
+ *          - $ref: '#/components/parameters/EventIdPath'
+ *          responses:
+ *              '200':
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      example: 200
+ *                                  message:
+ *                                      type: string
+ *                                      example: success
+ *                                  data:
+ *                                      $ref: '#/components/schemas/Event'
  * components:
  *  parameters:
- *      AuthorizedHeader:
- *          in: header
- *          name: token
+ *      EventIdPath:
+ *          in: path
+ *          name: event_id
  *          required: true
  *          schema:
- *            type: string
- *  responses:
- *      Unauthorized:
- *          description: unauthorized token
- *          content:
- *              application/json:
- *                  schema:
- *                      $ref: "#/components/schemas/Error"
- *                      example:
- *                          status: 200
- *                          message: "false to check attendance, jwt is not valid"
+ *              type: string
+ *      EventId:
+ *          in: body
+ *          name: event_id
+ *          required: true
+ *          schema:
+ *              type: string
+ *      MemberId:
+ *          in: body
+ *          name: member_id
+ *          required: true
+ *          schema:
+ *              type: string
  *  schemas:
  *      Error:
  *          type: object
@@ -96,9 +119,8 @@ const router = express.Router();
  *              data:
  *                  type: array
  *                  items:
- *                      $ref: "#components/schemas/Event"
+ *                      $ref: "#/components/schemas/Event"
  */
-
 router.route('/').get(controller.getAllEvents).post(controller.addEvent);
 router
 	.route('/:eventId')
