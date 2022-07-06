@@ -38,7 +38,7 @@ const getAttendance = (req, res) => {
 	jwt.verifyToken(token, JWT_SECRET)
 		.then(() => {
 			Attendance.get(ids, (err, result) => {
-				if (err || !result) {
+				if (err !== null || !result) {
 					res.status(200).json({
 						status: 400,
 						message: 'Wrong information in request. ' + (err.message || err.sqlMessage),
@@ -66,17 +66,18 @@ const getAllMemberAttendance = (req, res) => {
 	jwt.verifyToken(token, JWT_SECRET)
 		.then(() => {
 			Attendance.getAllMember(id, (err, result) => {
-				if (err || !result) {
+				console.log(err);
+				if (err) {
 					res.status(200).json({
 						status: 400,
-						message: 'Wrong information in request' + (err.message || err.sqlMessage),
+						message: 'Wrong information in request ' + err.message,
 					});
 					return;
 				}
 				res.status(200).json({
 					status: 200,
 					message: 'Success',
-					data: result,
+					data: result ? result : [],
 				});
 			});
 		})
