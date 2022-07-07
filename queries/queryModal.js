@@ -15,4 +15,5 @@ module.exports = {
 		'WHERE id=?',
 	insertEvent: 'INSERT INTO event VALUES(?,?,?,?,?,?,?,?,?,?)',
 	insertAttendance: 'INSERT INTO attendance (member_id, event_id, status) VALUES (?)',
+	updateAttendanceStatus: 'UPDATE attendance SET status = ? WHERE member_id = ? AND event_id = ?',
 };

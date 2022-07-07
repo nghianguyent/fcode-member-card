@@ -72,6 +72,36 @@ class Attendance {
 				return callback(err, false);
 			});
 	}
+	static async update(attendance, callback) {
+		let isNotValid = await this.checkValidId(attendance.member_id, attendance.event_id)
+			.then(async (isNotValid) => {
+				if (isNotValid) {
+					return isNotValid;
+				}
+				return false;
+			})
+			.catch((err) => {
+				return callback(err, false);
+			});
+		if (isNotValid) {
+			return callback(isNotValid, false);
+		}
+		query
+			.setData(queries.updateAttendanceStatus, [
+				attendance.status,
+				attendance.member_id,
+				attendance.event_id,
+			])
+			.then((result) => {
+				if (result) {
+					return callback(null, result);
+				}
+				return callback(null, false);
+			})
+			.catch((err) => {
+				return callback(err, false);
+			});
+	}
 	static async getAllMember(eventId, callback) {
 		let isNotValid = await this.checkValidEventId(eventId)
 			.then((isNotValid) => {
