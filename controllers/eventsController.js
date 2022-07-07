@@ -123,7 +123,7 @@ const deleteEvent = (req, res) => {
 						status: 500,
 						message: err.message,
 					});
-				else if (result.affectedRows == 0)
+				else if (result[1].affectedRows == 0)
 					res.send({
 						status: 404,
 						message: 'cannot find event',

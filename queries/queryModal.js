@@ -6,6 +6,7 @@ module.exports = {
 	getAttendance: 'SELECT * FROM attendance WHERE member_id = ? and event_id = ?',
 	getAllMemberAttendance:
 		"SELECT concat(m.first_name, ' ',m.last_name) as name, m.member_id, status FROM attendance a JOIN member m Where a.member_id = m.id AND a.event_id = ?",
+	deleteAllMemberAttendance: 'DELETE FROM attendance WHERE event_id = ?',
 	getEvent: 'SELECT * FROM event ORDER BY id DESC',
 	deleteEvent: 'DELETE FROM event WHERE id=?',
 	updateEvent:
