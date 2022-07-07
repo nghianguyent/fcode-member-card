@@ -3,6 +3,15 @@ const controller = require('../controllers/eventsController');
 
 const router = express.Router();
 
+router.route('/').get(controller.getAllEvents).post(controller.addEvent);
+router
+	.route('/:eventId')
+	.get(controller.getEvent)
+	.put(controller.updateEvent)
+	.delete(controller.deleteEvent);
+
+module.exports = router;
+
 /**
  * @swagger
  * paths:
@@ -21,6 +30,32 @@ const router = express.Router();
  *                              $ref: '#/components/schemas/Events'
  *              '403':
  *                  $ref: '#/components/responses/Unauthorized'
+ *      post:
+ *          tags: [Events]
+ *          summary: add an event
+ *          parameters:
+ *              - $ref: '#/components/parameters/AuthorizedHeader'
+ *          requestBody:
+ *              description: add the event information
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EventAdding'
+ *          responses:
+ *              '200':
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      example: 200
+ *                                  message:
+ *                                      type: string
+ *                                      example: success
  *  /api/events/{event_id}:
  *      get:
  *          tags: [Events]
@@ -28,6 +63,57 @@ const router = express.Router();
  *          parameters:
  *          - $ref: '#/components/parameters/AuthorizedHeader'
  *          - $ref: '#/components/parameters/EventIdPath'
+ *          responses:
+ *              '200':
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      example: 200
+ *                                  message:
+ *                                      type: string
+ *                                      example: success
+ *                                  data:
+ *                                      $ref: '#/components/schemas/Event'
+ *      put:
+ *          tags: [Events]
+ *          summary: update an event
+ *          parameters:
+ *              - $ref: '#/components/parameters/AuthorizedHeader'
+ *              - $ref: '#/components/parameters/EventIdPath'
+ *          requestBody:
+ *              description: add the event information
+ *              required: true
+ *              content:
+ *                  application/json:
+ *                      schema:
+ *                          $ref: '#/components/schemas/EventAdding'
+ *          responses:
+ *              '200':
+ *                  description: successful
+ *                  content:
+ *                      application/json:
+ *                          schema:
+ *                              type: object
+ *                              properties:
+ *                                  status:
+ *                                      type: integer
+ *                                      example: 200
+ *                                  message:
+ *                                      type: string
+ *                                      example: success
+ *                                  data:
+ *                                      $ref: '#/components/schemas/Event'
+ *      delete:
+ *          tags: [Events]
+ *          summary: delete an event
+ *          parameters:
+ *              - $ref: '#/components/parameters/AuthorizedHeader'
+ *              - $ref: '#/components/parameters/EventIdPath'
  *          responses:
  *              '200':
  *                  description: successful
@@ -72,7 +158,36 @@ const router = express.Router();
  *                  type: number
  *              message:
  *                  type: string
- *
+ *      EventAdding:
+ *          type: object
+ *          properties:
+ *              name:
+ *                  type: string
+ *                  example: "test"
+ *              start_date:
+ *                  type: string
+ *                  example: "2022-12-12"
+ *              end_date:
+ *                  type: string
+ *                  example: "2022-12-12"
+ *              description:
+ *                  type: string
+ *                  example: "a wonderful event"
+ *              start_time:
+ *                  type: string
+ *                  example: "21:00:00"
+ *              end_time:
+ *                  type: string
+ *                  example: "22:00:00"
+ *              status:
+ *                  type: string
+ *                  example: "upcomming"
+ *              semester:
+ *                  type: string
+ *                  example: "SP2022"
+ *              location:
+ *                  type: string
+ *                  example: "Upcoming"
  *      Event:
  *          type: object
  *          properties:
@@ -121,11 +236,3 @@ const router = express.Router();
  *                  items:
  *                      $ref: "#/components/schemas/Event"
  */
-router.route('/').get(controller.getAllEvents).post(controller.addEvent);
-router
-	.route('/:eventId')
-	.get(controller.getEvent)
-	.put(controller.updateEvent)
-	.delete(controller.deleteEvent);
-
-module.exports = router;
