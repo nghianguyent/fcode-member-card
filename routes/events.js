@@ -27,7 +27,12 @@ module.exports = router;
  *                  content:
  *                      application/json:
  *                          schema:
- *                              $ref: '#/components/schemas/Events'
+ *                              allOf:
+ *                                  - $ref: '#/components/schemas/ResponseSuccess'
+ *                                  - type: object
+ *                                    properties:
+ *                                      data:
+ *                                          $ref: '#/components/schemas/Events'
  *              '403':
  *                  $ref: '#/components/responses/Unauthorized'
  *      post:
@@ -48,14 +53,7 @@ module.exports = router;
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      example: 200
- *                                  message:
- *                                      type: string
- *                                      example: success
+ *                              $ref: '#/components/schemas/ResponseSuccess'
  *  /api/events/{event_id}:
  *      get:
  *          tags: [Events]
@@ -69,16 +67,12 @@ module.exports = router;
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      example: 200
- *                                  message:
- *                                      type: string
- *                                      example: success
- *                                  data:
- *                                      $ref: '#/components/schemas/Event'
+ *                              allOf:
+ *                                  - $ref: '#/components/schemas/ResponseSuccess'
+ *                                  - type: object
+ *                                    properties:
+ *                                      data:
+ *                                          $ref: '#/components/schemas/Event'
  *      put:
  *          tags: [Events]
  *          summary: update an event
@@ -98,16 +92,7 @@ module.exports = router;
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      example: 200
- *                                  message:
- *                                      type: string
- *                                      example: success
- *                                  data:
- *                                      $ref: '#/components/schemas/Event'
+ *                              $ref: '#/components/schemas/ResponseSuccess'
  *      delete:
  *          tags: [Events]
  *          summary: delete an event
@@ -120,16 +105,7 @@ module.exports = router;
  *                  content:
  *                      application/json:
  *                          schema:
- *                              type: object
- *                              properties:
- *                                  status:
- *                                      type: integer
- *                                      example: 200
- *                                  message:
- *                                      type: string
- *                                      example: success
- *                                  data:
- *                                      $ref: '#/components/schemas/Event'
+ *                              $ref: '#/components/schemas/ResponseSuccess'
  * components:
  *  parameters:
  *      EventIdPath:
@@ -223,16 +199,7 @@ module.exports = router;
  *                  example: "Upcoming"
  *
  *      Events:
- *          type: object
- *          properties:
- *              status:
- *                  type: integer
- *                  example: 200
- *              message:
- *                  type: string
- *                  example: "success"
- *              data:
- *                  type: array
- *                  items:
- *                      $ref: "#/components/schemas/Event"
+ *          type: array
+ *          items:
+ *              $ref: "#/components/schemas/Event"
  */
