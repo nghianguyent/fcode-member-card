@@ -11,6 +11,7 @@ const getUserById = (req, res) => {
 						status: 500,
 						message: err.sqlMessage,
 					});
+				console.log(result);
 				if (!result)
 					return res.status(200).json({
 						status: 404,
