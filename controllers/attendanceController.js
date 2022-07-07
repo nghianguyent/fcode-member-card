@@ -38,16 +38,23 @@ const getAttendance = (req, res) => {
 	jwt.verifyToken(token, JWT_SECRET)
 		.then(() => {
 			Attendance.get(ids, (err, result) => {
-				if (err !== null || !result) {
+				if (err !== null) {
 					res.status(200).json({
 						status: 400,
 						message: 'Wrong information in request. ' + (err.message || err.sqlMessage),
 					});
 					return;
 				}
+				if (!result) {
+					res.status(200).json({
+						status: 400,
+						message: 'Cannot find the user in attendance list',
+					});
+					return;
+				}
 				res.status(200).json({
 					status: 200,
-					message: 'Successful check attendance',
+					message: 'Success',
 					data: result,
 				});
 			});

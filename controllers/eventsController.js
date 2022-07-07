@@ -14,7 +14,7 @@ const getAllEvents = (req, res) => {
 				else
 					res.status(200).json({
 						status: 200,
-						message: 'success',
+						message: 'Success',
 						data: events,
 					});
 			});
@@ -40,7 +40,7 @@ const addEvent = (req, res) => {
 				else
 					res.send({
 						status: 200,
-						message: 'success',
+						message: 'Success',
 					});
 			});
 		})
@@ -59,7 +59,7 @@ const getEvent = (req, res) => {
 				if (event.length == 0) {
 					res.send({
 						status: 404,
-						message: 'cannot find event',
+						message: 'Cannot find event',
 					});
 					return;
 				}
@@ -71,7 +71,7 @@ const getEvent = (req, res) => {
 				else
 					res.send({
 						status: 200,
-						message: 'success',
+						message: 'Success',
 						data: event[0],
 					});
 			});
@@ -97,12 +97,12 @@ const updateEvent = (req, res) => {
 				else if (result.affectedRows == 0)
 					res.send({
 						status: 404,
-						message: 'cannot find event',
+						message: 'Cannot find event',
 					});
 				else
 					res.send({
 						status: 200,
-						message: 'success',
+						message: 'Success',
 					});
 			});
 		})
@@ -126,12 +126,12 @@ const deleteEvent = (req, res) => {
 				else if (result[1].affectedRows == 0)
 					res.send({
 						status: 404,
-						message: 'cannot find event',
+						message: 'Cannot find event',
 					});
 				else
 					res.send({
 						status: 200,
-						message: 'success',
+						message: 'Success',
 					});
 			});
 		})
