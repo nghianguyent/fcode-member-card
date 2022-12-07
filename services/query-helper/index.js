@@ -11,6 +11,7 @@ const getPool = () => {
 			user: configs.MYSQL_USERNAME,
 			password: configs.MYSQL_PASSWORD,
 			database: configs.MYSQL_DATABASE,
+			multipleStatements: true,
 		});
 	}
 	return pool;

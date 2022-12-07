@@ -75,10 +75,15 @@ class Event {
 	};
 
 	static remove = (id, result) => {
-		pool.query(queries.deleteEvent, [id], (err, res) => {
-			if (err) return result(err, null);
-			else return result(null, res);
-		});
+		pool.query(
+			queries.deleteAllMemberAttendance + ';' + queries.deleteEvent,
+			[id, id],
+			(err, res) => {
+				console.log(res);
+				if (err) return result(err, null);
+				else return result(null, res);
+			}
+		);
 	};
 }
 

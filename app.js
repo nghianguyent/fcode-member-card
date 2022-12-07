@@ -5,7 +5,8 @@ const helmet = require('helmet');
 const env = require('dotenv');
 const api = require('./routes');
 const bodyParser = require('body-parser');
-const eventsRoute = require('./routes/events');
+// const swaggerJsdoc = require('swagger-jsdoc');
+// const swaggerUI = require('swagger-ui-express');
 const app = express();
 const configs = require('./configs');
 
@@ -50,6 +51,25 @@ app.use((req, res) => {
 	});
 });
 
+// swagger
+// const options = {
+// 	definition: {
+// 		openapi: '3.0.0',
+// 		info: {
+// 			title: 'F-Code Member Card API',
+// 			version: '1.0.0',
+// 			description: 'API for F-Code Member Card, using to check in event of member in F-Code',
+// 		},
+// 		servers: [
+// 			{
+// 				url: 'http://localhost:4000',
+// 			},
+// 		],
+// 	},
+// 	apis: ['./routes/*.js'],
+// };
+// const swaggerSpec = swaggerJsdoc(options);
+// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
 	// cusstom handle errors

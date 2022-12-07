@@ -19,8 +19,7 @@ const setAttendance = (req, res) => {
 				}
 				res.status(200).json({
 					status: 200,
-					message: 'Successful check attendance',
-					data: result,
+					message: 'Success',
 				});
 			});
 		})
@@ -31,23 +30,60 @@ const setAttendance = (req, res) => {
 			});
 		});
 };
-
+const updateAttendanceStatus = (req, res) => {
+	const token = req.headers.token;
+	const attendance = req.body;
+	jwt.verifyToken(token, JWT_SECRET).then(() => {
+		Attendance.update(attendance, (err, result) => {
+			if (err) {
+				res.status(200).json({
+					status: 400,
+					message: 'Wrong information in request. ' + (err.message || err.sqlMessage),
+				});
+				return;
+			}
+			if (result.affectedRows == 0) {
+				res.status(200).json({
+					status: 400,
+					message: 'Cannot find the user or event in attendance check',
+				});
+				return;
+			}
+			res.status(200).json({
+				status: 200,
+				message: 'Success',
+			});
+		}).catch((err) => {
+			res.status(200).json({
+				status: 403,
+				message: 'False to check attendance, ' + (err.message || err.sqlMessage),
+			});
+		});
+	});
+};
 const getAttendance = (req, res) => {
 	const token = req.headers.token;
 	const ids = req.query;
 	jwt.verifyToken(token, JWT_SECRET)
 		.then(() => {
 			Attendance.get(ids, (err, result) => {
-				if (err || !result) {
+				if (err !== null) {
 					res.status(200).json({
 						status: 400,
 						message: 'Wrong information in request. ' + (err.message || err.sqlMessage),
 					});
 					return;
 				}
+				if (!result) {
+					res.status(200).json({
+						status: 400,
+						message: 'Cannot find the user in attendance list',
+					});
+					return;
+				}
 				res.status(200).json({
 					status: 200,
-					message: 'Successful check attendance',
+					message: 'Success',
 					data: result,
 				});
 			});
@@ -66,17 +102,17 @@ const getAllMemberAttendance = (req, res) => {
 	jwt.verifyToken(token, JWT_SECRET)
 		.then(() => {
 			Attendance.getAllMember(id, (err, result) => {
-				if (err || !result) {
+				if (err) {
 					res.status(200).json({
 						status: 400,
-						message: 'Wrong information in request' + (err.message || err.sqlMessage),
+						message: 'Wrong information in request ' + err.message,
 					});
 					return;
 				}
 				res.status(200).json({
 					status: 200,
 					message: 'Success',
-					data: result,
+					data: result ? result : [],
 				});
 			});
 		})
@@ -91,4 +127,5 @@ module.exports = {
 	setAttendance: setAttendance,
 	getAttendance: getAttendance,
 	getAllMemberAttendance: getAllMemberAttendance,
+	updateAttendanceStatus: updateAttendanceStatus,
 };

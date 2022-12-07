@@ -25,7 +25,9 @@
 		"mysql": "^2.18.1",
 		"nodemon": "^2.0.15",
 		"passport": "^0.5.2",
-		"passport-google-oauth20": "^2.0.0"
+		"passport-google-oauth20": "^2.0.0",
+		"swagger-jsdoc": "^6.2.1",
+		"swagger-ui-express": "^4.4.0"
 	},
 	"devDependencies": {
 		"eslint": "^8.14.0",
