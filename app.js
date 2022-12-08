@@ -5,13 +5,13 @@ const helmet = require('helmet');
 const env = require('dotenv');
 const api = require('./routes');
 const bodyParser = require('body-parser');
-// const swaggerJsdoc = require('swagger-jsdoc');
-// const swaggerUI = require('swagger-ui-express');
+const eventsRoute = require('./routes/events');
 const app = express();
 const configs = require('./configs');
-
+const fallback = require('express-history-api-fallback');
 // config
 env.config();
+const root = `${__dirname}/public`;
 const port = process.env.PORT || 3000;
 
 app.use(logger('dev'));
@@ -32,14 +32,13 @@ app.use(bodyParser.json());
 // middleware
 app.use('/api', api);
 
-app.get('/', (req, res) => {
-	const requestQuery = req.query;
-	res.status(200).json(requestQuery);
-});
 // listen on port
 app.listen(port, () => {
 	console.log(`listening on ${port}`);
 });
+
+app.use(express.static(root));
+app.use(fallback('index.html', {root}));
 
 app.use((req, res) => {
 	return res.status(400).json({
@@ -51,34 +50,22 @@ app.use((req, res) => {
 	});
 });
 
-// swagger
-// const options = {
-// 	definition: {
-// 		openapi: '3.0.0',
-// 		info: {
-// 			title: 'F-Code Member Card API',
-// 			version: '1.0.0',
-// 			description: 'API for F-Code Member Card, using to check in event of member in F-Code',
-// 		},
-// 		servers: [
-// 			{
-// 				url: 'http://localhost:4000',
-// 			},
-// 		],
-// 	},
-// 	apis: ['./routes/*.js'],
-// };
-// const swaggerSpec = swaggerJsdoc(options);
-// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 // eslint-disable-next-line no-unused-vars
 app.use((err, req, res, next) => {
-	// cusstom handle errors
 	console.log(err);
+
 	// handle OAuth error
 	if (!req.user) {
 		return res.status(200).json({
 			message: 'Unauthorized',
 			status: 500,
+		});
+	}
+	// cusstom handle errors
+	if (err) {
+		return res.status(500).json({
+			status: 500,
+			message: 'Internal server error',
 		});
 	}
 });

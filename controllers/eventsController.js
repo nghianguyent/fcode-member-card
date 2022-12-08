@@ -32,12 +32,13 @@ const addEvent = (req, res) => {
 		.then(() => {
 			const event = new Event(req.body);
 			Event.add(event, (err, result) => {
-				if (err)
+				if (err) {
 					res.send({
 						status: 500,
 						message: err.message,
 					});
-				else
+					console.log(err);
+				} else
 					res.send({
 						status: 200,
 						message: 'Success',

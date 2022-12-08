@@ -15,6 +15,7 @@
 		"debug": "~2.6.9",
 		"dotenv": "^16.0.0",
 		"express": "~4.16.1",
+		"express-history-api-fallback": "^2.2.1",
 		"express-session": "^1.17.2",
 		"google-auth-library": "^8.0.1",
 		"helmet": "^5.0.2",
