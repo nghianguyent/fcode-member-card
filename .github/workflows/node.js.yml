@@ -9,6 +9,18 @@ on:
   pull_request:
     branches: [ "main" ]
 
+env:
+  MYSQL_USERNAME: root
+  MYSQL_PASSWORD: DAXUAGANKTEM15PGG
+  MYSQL_DATABASE: fcode_member_card
+  MYSQL_HOST: localhost
+  GOOGLE_CLIENT_ID: 379611883013-ug6b2ql5kf2vdv3ujiofg1jut7hj7gok.apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET: 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
+  HOST_URL: https://card.f-code.tech
+  SERVER_URL: https://card.f-code.tech
+  PORT: 10007
+  JWT_SECRET: f-code.tech
+
 jobs:
   build:
 
